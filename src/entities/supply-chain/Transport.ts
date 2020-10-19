@@ -20,7 +20,7 @@ export class Transport extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
-  @OneToOne(() => TransportUnit)
+  @OneToOne(() => TransportUnit, (transport_unit) => transport_unit.transports)
   @JoinColumn()
   transport_unit: TransportUnit;
 
