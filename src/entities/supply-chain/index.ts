@@ -1,10 +1,8 @@
-export { AssetUnit } from "./AssetUnit";
-export { BatchUnit } from "./BatchUnit";
+export { AssetUnit, AssetUnitStatus } from "./AssetUnit";
 export { Batch, BatchStatus } from "./Batch";
 export { Logistic, LogisticStatus } from "./Logistic";
-export { LogisticUnit } from "./LogisticUnit";
 export { StockUnit } from "./StockUnit";
 export { Transaction } from "./Transaction";
 export { Transport, TransportStatus } from "./Transport";
-export { TransportUnit } from "./TransportUnit";
+export { TransportUnit, TransportUnitStatus } from "./TransportUnit";
 export { Location } from "./Location";

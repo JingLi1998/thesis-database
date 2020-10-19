@@ -8,11 +8,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { BatchUnit, Location, LogisticUnit, StockUnit, TransportUnit } from ".";
+import { Batch, Location, Logistic, StockUnit, Transport } from ".";
 
 @Entity()
 export class Transaction extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn()
   id: string;
 
   @ManyToOne(() => Location)
@@ -29,19 +29,19 @@ export class Transaction extends BaseEntity {
   @Column()
   why: string;
 
-  @ManyToMany(() => StockUnit)
+  @ManyToMany(() => StockUnit, (stock_unit) => stock_unit.transactions)
   @JoinTable()
   what_stock: StockUnit[];
 
-  @ManyToMany(() => BatchUnit)
+  @ManyToMany(() => Batch, (batch) => batch.transactions)
   @JoinTable()
-  what_batch: BatchUnit[];
+  what_batch: Batch[];
 
-  @ManyToMany(() => LogisticUnit)
+  @ManyToMany(() => Logistic, (logistic) => logistic.transactions)
   @JoinTable()
-  what_logistic: LogisticUnit[];
+  what_logistic: Logistic[];
 
-  @ManyToMany(() => TransportUnit)
+  @ManyToMany(() => Transport, (transport) => transport.transactions)
   @JoinTable()
-  what_transport: TransportUnit[];
+  what_transport: Transport[];
 }

@@ -8,7 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { TransportUnit, LogisticUnit } from ".";
+import { TransportUnit, Logistic, Transaction } from ".";
 
 export enum TransportStatus {
   IN_PROGRESS = "in_progress",
@@ -17,16 +17,19 @@ export enum TransportStatus {
 
 @Entity()
 export class Transport extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn()
   id: string;
 
   @OneToOne(() => TransportUnit)
   @JoinColumn()
   transport_unit: TransportUnit;
 
-  @ManyToMany(() => LogisticUnit)
+  @ManyToMany(() => Logistic, (logistic) => logistic.transports)
   @JoinTable()
-  logistic_units: LogisticUnit[];
+  logistics: Logistic[];
+
+  @ManyToMany(() => Transaction, (transaction) => transaction.what_batch)
+  transactions: Transaction[];
 
   @Column()
   aggregation_date: number;

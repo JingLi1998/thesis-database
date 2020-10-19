@@ -6,10 +6,9 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
-import { LogisticUnit, AssetUnit, BatchUnit } from ".";
+import { AssetUnit, Batch, Transaction, Transport } from ".";
 
 export enum LogisticStatus {
   IN_PROGRESS = "in_progress",
@@ -18,20 +17,23 @@ export enum LogisticStatus {
 
 @Entity()
 export class Logistic extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryColumn()
+  sscc: string;
 
-  @OneToOne(() => LogisticUnit)
-  @JoinColumn()
-  logistic_unit: LogisticUnit;
-
-  @ManyToOne(() => AssetUnit)
+  @ManyToOne(() => AssetUnit, (asset_unit) => asset_unit.logistics)
   @JoinColumn()
   asset_unit: AssetUnit;
 
-  @ManyToMany(() => BatchUnit)
+  @ManyToMany(() => Batch, (batch) => batch.logistics)
   @JoinTable()
-  batch_units: BatchUnit[];
+  batches: Batch[];
+
+  @ManyToMany(() => Transport, (transport) => transport.logistics)
+  @JoinTable()
+  transports: Transport[];
+
+  @ManyToMany(() => Transaction, (transaction) => transaction.what_logistic)
+  transactions: Transaction[];
 
   @Column()
   aggregation_date: number;

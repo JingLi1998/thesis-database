@@ -2,13 +2,11 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
-import { BatchUnit, StockUnit } from ".";
+import { StockUnit, Logistic, Transaction } from ".";
 
 export enum BatchStatus {
   IN_PROGRESS = "in_progress",
@@ -17,16 +15,18 @@ export enum BatchStatus {
 
 @Entity()
 export class Batch extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryColumn()
+  gtin_batch_number: string;
 
-  @OneToOne(() => BatchUnit)
-  @JoinColumn()
-  batch_unit: BatchUnit;
-
-  @ManyToMany(() => StockUnit)
+  @ManyToMany(() => StockUnit, (stock_unit) => stock_unit.batches)
   @JoinTable()
   stock_units: StockUnit[];
+
+  @ManyToMany(() => Logistic, (logistic) => logistic.batches)
+  logistics: Logistic[];
+
+  @ManyToMany(() => Transaction, (transaction) => transaction.what_batch)
+  transactions: Transaction[];
 
   @Column()
   aggregation_date: number;
