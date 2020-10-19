@@ -2,8 +2,8 @@ import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { Logistic } from ".";
 
 export enum AssetUnitStatus {
-  AVAILABLE = "unavailable",
-  UNAVAILABLE = "available",
+  UNAVAILABLE = "unavailable",
+  AVAILABLE = "available",
 }
 
 @Entity()

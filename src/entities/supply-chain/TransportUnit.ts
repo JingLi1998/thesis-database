@@ -1,14 +1,18 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Transport } from ".";
 
 export enum TransportUnitStatus {
-  AVAILABLE = "unavailable",
-  UNAVAILABLE = "available",
+  UNAVAILABLE = "unavailable",
+  AVAILABLE = "available",
 }
 
 @Entity()
 export class TransportUnit extends BaseEntity {
   @PrimaryColumn()
   giai: string;
+
+  @OneToMany(() => Transport, (transport) => transport.transport_unit)
+  transports: Transport[];
 
   @Column({
     type: "enum",
