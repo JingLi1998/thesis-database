@@ -5,7 +5,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
-  OneToOne,
+  ManyToOne,
   PrimaryColumn,
 } from "typeorm";
 import { Logistic, Transaction, TransportUnit } from ".";
@@ -20,7 +20,7 @@ export class Transport extends BaseEntity {
   @PrimaryColumn()
   id: string;
 
-  @OneToOne(() => TransportUnit, (transport_unit) => transport_unit.transports)
+  @ManyToOne(() => TransportUnit, (transport_unit) => transport_unit.transports)
   @JoinColumn()
   transport_unit: TransportUnit;
 
