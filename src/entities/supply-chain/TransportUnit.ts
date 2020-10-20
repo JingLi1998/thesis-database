@@ -1,4 +1,10 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Transport } from ".";
 
 export enum TransportUnitStatus {
@@ -8,8 +14,14 @@ export enum TransportUnitStatus {
 
 @Entity()
 export class TransportUnit extends BaseEntity {
-  @PrimaryColumn()
-  giai: string;
+  @PrimaryGeneratedColumn()
+  giai: number;
+
+  @Column()
+  brand: string;
+
+  @Column()
+  model: string;
 
   @OneToMany(() => Transport, (transport) => transport.transport_unit)
   transports: Transport[];

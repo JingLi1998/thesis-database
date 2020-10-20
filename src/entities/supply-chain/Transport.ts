@@ -1,12 +1,13 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Logistic, Transaction, TransportUnit } from ".";
 
@@ -17,8 +18,8 @@ export enum TransportStatus {
 
 @Entity()
 export class Transport extends BaseEntity {
-  @PrimaryColumn()
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @ManyToOne(() => TransportUnit, (transport_unit) => transport_unit.transports)
   @JoinColumn()
@@ -26,16 +27,16 @@ export class Transport extends BaseEntity {
 
   @ManyToMany(() => Logistic, (logistic) => logistic.transports)
   @JoinTable()
-  logistics: Logistic[];
+  logistics?: Logistic[];
 
   @ManyToMany(() => Transaction, (transaction) => transaction.what_transport)
   transactions: Transaction[];
 
-  @Column()
-  aggregation_date: number;
+  @CreateDateColumn({ type: "timestamp" })
+  aggregation_date: Date;
 
-  @Column({ nullable: true })
-  disaggregation_date: number;
+  @Column({ nullable: true, type: "timestamp" })
+  disaggregation_date: Date;
 
   @Column({
     type: "enum",

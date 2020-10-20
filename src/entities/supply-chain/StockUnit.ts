@@ -1,13 +1,23 @@
-import { BaseEntity, Entity, ManyToMany, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Batch, Transaction } from ".";
+import { Product } from "./Product";
 
 @Entity()
 export class StockUnit extends BaseEntity {
-  @PrimaryColumn()
-  gtin_serial_number: string;
+  @PrimaryGeneratedColumn()
+  gtin_serial: string;
+
+  @ManyToOne(() => Product)
+  product: Product;
 
   @ManyToMany(() => Batch, (batch) => batch.stock_units)
-  batches: Batch[];
+  batches?: Batch[];
 
   @ManyToMany(() => Transaction, (transaction) => transaction.what_stock)
   transactions: Transaction[];

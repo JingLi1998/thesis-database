@@ -1,4 +1,10 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Logistic } from ".";
 
 export enum AssetUnitStatus {
@@ -8,8 +14,11 @@ export enum AssetUnitStatus {
 
 @Entity()
 export class AssetUnit extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   grai: string;
+
+  @Column()
+  asset_type: string;
 
   @OneToMany(() => Logistic, (logistic) => logistic.asset_unit)
   logistics: Logistic[];

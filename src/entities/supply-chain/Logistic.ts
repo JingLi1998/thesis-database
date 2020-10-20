@@ -1,12 +1,13 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { AssetUnit, Batch, Transaction, Transport } from ".";
 
@@ -17,8 +18,8 @@ export enum LogisticStatus {
 
 @Entity()
 export class Logistic extends BaseEntity {
-  @PrimaryColumn()
-  sscc: string;
+  @PrimaryGeneratedColumn()
+  sscc: number;
 
   @ManyToOne(() => AssetUnit, (asset_unit) => asset_unit.logistics)
   @JoinColumn()
@@ -26,20 +27,20 @@ export class Logistic extends BaseEntity {
 
   @ManyToMany(() => Batch, (batch) => batch.logistics)
   @JoinTable()
-  batches: Batch[];
+  batches?: Batch[];
 
   @ManyToMany(() => Transport, (transport) => transport.logistics)
   @JoinTable()
-  transports: Transport[];
+  transports?: Transport[];
 
   @ManyToMany(() => Transaction, (transaction) => transaction.what_logistic)
   transactions: Transaction[];
 
-  @Column()
-  aggregation_date: number;
+  @CreateDateColumn({ type: "timestamp" })
+  aggregation_date: Date;
 
-  @Column({ nullable: true })
-  disaggregation_date: number;
+  @Column({ nullable: true, type: "timestamp" })
+  disaggregation_date: Date;
 
   @Column({
     type: "enum",

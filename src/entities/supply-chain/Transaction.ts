@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
@@ -23,8 +24,8 @@ export class Transaction extends BaseEntity {
   @JoinColumn()
   where: Location;
 
-  @Column()
-  when: number;
+  @CreateDateColumn({ type: "timestamp" })
+  when: Date;
 
   @Column()
   why: string;

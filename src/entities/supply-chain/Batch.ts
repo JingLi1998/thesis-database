@@ -1,12 +1,13 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from "typeorm";
-import { StockUnit, Logistic, Transaction } from ".";
+import { Logistic, StockUnit, Transaction } from ".";
 
 export enum BatchStatus {
   IN_PROGRESS = "in_progress",
@@ -15,24 +16,26 @@ export enum BatchStatus {
 
 @Entity()
 export class Batch extends BaseEntity {
-  @PrimaryColumn()
-  gtin_batch_number: string;
+  @PrimaryGeneratedColumn()
+  gtin_batch: string;
 
-  @ManyToMany(() => StockUnit, (stock_unit) => stock_unit.batches)
+  @ManyToMany(() => StockUnit, (stock_unit) => stock_unit.batches, {
+    cascade: true,
+  })
   @JoinTable()
-  stock_units: StockUnit[];
+  stock_units?: StockUnit[];
 
   @ManyToMany(() => Logistic, (logistic) => logistic.batches)
-  logistics: Logistic[];
+  logistics?: Logistic[];
 
   @ManyToMany(() => Transaction, (transaction) => transaction.what_batch)
   transactions: Transaction[];
 
-  @Column()
-  aggregation_date: number;
+  @CreateDateColumn({ type: "timestamp" })
+  aggregation_date: Date;
 
-  @Column({ nullable: true })
-  disaggregation_date: number;
+  @Column({ nullable: true, type: "timestamp" })
+  disaggregation_date: Date;
 
   @Column({ type: "enum", enum: BatchStatus, default: BatchStatus.IN_PROGRESS })
   status: BatchStatus;
