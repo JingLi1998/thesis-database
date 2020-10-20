@@ -17,7 +17,7 @@ export enum BatchStatus {
 @Entity()
 export class Batch extends BaseEntity {
   @PrimaryGeneratedColumn()
-  gtin_batch: string;
+  gtin_batch: number;
 
   @ManyToMany(() => StockUnit, (stock_unit) => stock_unit.batches, {
     cascade: true,
