@@ -7,3 +7,4 @@ export { Transport, TransportStatus } from "./Transport";
 export { TransportUnit, TransportUnitStatus } from "./TransportUnit";
 export { Location } from "./Location";
 export { Product } from "./Product";
+export { ResourcePolicy } from "./ResourcePolicy";
